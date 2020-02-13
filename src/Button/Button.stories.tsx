@@ -1,40 +1,40 @@
 /** @jsx jsx */
-import Button from './Button';
-import { jsx, css } from '@emotion/core';
-import { withKnobs, text, boolean, select } from '@storybook/addon-knobs';
-import { action } from '@storybook/addon-actions';
-import ButtonGroup from '../ButtonGroup/ButtonGroup';
-import Icon from '../Icon/Icon';
+import Button from "./Button";
+import { jsx, css } from "@emotion/core";
+import { withKnobs, text, boolean, select } from "@storybook/addon-knobs";
+import { action } from "@storybook/addon-actions";
+import ButtonGroup from "../ButtonGroup/ButtonGroup";
+import Icon from "../Icon/Icon";
 
 export default {
-  title: "components|Button",
+  title: "Sample/Button",
   component: Button,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 };
 
 export const button = () => {
-    const label = text('children', 'BUTTON');
-    const size = select('size', ['small', 'medium', 'big'], 'medium');
-    const theme = select(
-      'theme',
-      ['primary', 'secondary', 'tertiary'],
-      'primary'
-    );
-    const disabled = boolean('disabled', false);
-    const width = text('width', '');
-  
-    return (
-      <Button
-        size={size}
-        theme={theme}
-        disabled={disabled}
-        width={width}
-        onClick={action('onClick')}
-      >
-        {label}
-      </Button>
-    );
-  };
+  const label = text("children", "BUTTON");
+  const size = select("size", ["small", "medium", "big"], "medium");
+  const theme = select(
+    "theme",
+    ["primary", "secondary", "tertiary"],
+    "primary"
+  );
+  const disabled = boolean("disabled", false);
+  const width = text("width", "");
+
+  return (
+    <Button
+      size={size}
+      theme={theme}
+      disabled={disabled}
+      width={width}
+      onClick={action("onClick")}
+    >
+      {label}
+    </Button>
+  );
+};
 
 button.story = {
   name: "Default"
