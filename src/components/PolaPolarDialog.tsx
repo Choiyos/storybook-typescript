@@ -1,11 +1,11 @@
 /** @jsx jsx */
 import { Fragment } from "react";
 import { css, jsx } from "@emotion/core";
-import ButtonGroup from "../ButtonGroup/ButtonGroup";
-import Button from "../Button/Button";
 import { useTransition, animated } from "react-spring";
+import PolaPolarButton, { ThemeTypes } from "./PolaPolarButton";
+import PolaPolarButtonGroup from "./PolaPolarButtonGroup";
 
-export type DialogProps = {
+export type PolaPolarDialogProps = {
   visible: boolean;
   title?: string;
   description?: string;
@@ -18,7 +18,7 @@ export type DialogProps = {
   onConfirm?: () => void;
 };
 
-const Dialog = ({
+const PolaPolarDialog = ({
   visible,
   title,
   description,
@@ -29,7 +29,7 @@ const Dialog = ({
   children,
   onCancel,
   onConfirm
-}: DialogProps) => {
+}: PolaPolarDialogProps) => {
   const fadeTransition = useTransition(visible, null, {
     from: { opacity: 0 },
     enter: { opacity: 1 },
@@ -75,14 +75,19 @@ const Dialog = ({
               {description && <p>{description}</p>}
               {children}
               {!hideButtons && (
-                <ButtonGroup css={{ marginTop: "3rem" }} rightAlign>
+                <PolaPolarButtonGroup css={{ marginTop: "3rem" }} rightAlign>
                   {cancellable && (
-                    <Button theme="tertiary" onClick={onCancel}>
+                    <PolaPolarButton
+                      theme={ThemeTypes.Cancel}
+                      onClick={onCancel}
+                    >
                       {cancelText}
-                    </Button>
+                    </PolaPolarButton>
                   )}
-                  <Button onClick={onConfirm}>{confirmText}</Button>
-                </ButtonGroup>
+                  <PolaPolarButton onClick={onConfirm}>
+                    {confirmText}
+                  </PolaPolarButton>
+                </PolaPolarButtonGroup>
               )}
             </div>
           </animated.div>
@@ -92,7 +97,7 @@ const Dialog = ({
   );
 };
 
-Dialog.defaultProps = {
+PolaPolarDialog.defaultProps = {
   cancelText: "취소",
   confirmText: "확인"
 };
@@ -139,4 +144,4 @@ const whiteBox = css`
   }
 `;
 
-export default Dialog;
+export default PolaPolarDialog;

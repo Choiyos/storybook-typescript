@@ -5,7 +5,7 @@ import { withKnobs, text, boolean, select } from "@storybook/addon-knobs";
 import { action } from "@storybook/addon-actions";
 
 export default {
-  title: "Components/PolaPolarButton/PolaPolarButton",
+  title: "Components/PolaPolarButton",
   component: PolaPolarButton,
   decorators: [withKnobs]
 };
