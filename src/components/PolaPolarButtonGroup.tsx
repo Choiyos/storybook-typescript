@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
-import styled from '@emotion/styled'
+import styled from "@emotion/styled";
 
 export type PolaPolarButtonGroupProps = {
   /** 버튼을 보여줄 방향 */
@@ -29,7 +29,7 @@ const PolaPolarButtonGroup = ({
     <div
       css={[
         {
-          display: 'flex',
+          display: "flex",
           flexDirection: direction
         },
         gapStyle(direction, gap),
@@ -43,15 +43,15 @@ const PolaPolarButtonGroup = ({
 };
 
 PolaPolarButtonGroup.defaultProps = {
-  direction: 'row',
-  gap: '0.5rem'
+  direction: "row",
+  gap: "0.5rem"
 };
 
 // direction 에 따라 margin-left 또는 margin-top 설정
-const gapStyle = (direction: 'row' | 'column', gap: number | string) => {
-  const marginType = direction === 'row' ? 'marginLeft' : 'marginTop';
+const gapStyle = (direction: "row" | "column", gap: number | string) => {
+  const marginType = direction === "row" ? "marginLeft" : "marginTop";
   return css({
-    'button + button': {
+    "button + button": {
       [marginType]: gap
     }
   });
