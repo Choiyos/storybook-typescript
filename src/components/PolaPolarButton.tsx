@@ -1,5 +1,7 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
+import React from "react";
+import { createPropsGetter } from "../module/PropsGetterFactory";
 
 export enum ThemeTypes {
   Primary = "primary",
@@ -17,47 +19,65 @@ export enum SizeTypes {
   Big = "big",
 }
 
-type PolaPolarButtonProps = {
+export type PolaPolarButtonProps = {
   /** 버튼 텍스트 내용 */
   children: React.ReactNode;
   /** 클릭 시 호출 함수 */
   onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
-  /** 버튼 테마 */
-  theme: ThemeTypes;
-  /** 버튼 크기 */
-  size: SizeTypes;
+
   /** 버튼의 비활성화 여부 */
   disabled?: boolean;
   /** 버튼의 너비 */
   width?: string | number;
-};
+}& Partial<DefaultProps>;
 
-/** 폴라폴라에서 사용하는 버튼 목록입니다. */
-const PolaPolarButton = ({
-  children,
-  theme,
-  size,
-  disabled,
-  width,
-  onClick
-}: PolaPolarButtonProps) => {
-  return (
-    <button
+type DefaultProps = Readonly<typeof defaultProps>
+
+const defaultProps = {
+  /** 버튼 테마 */
+  theme: ThemeTypes.Primary as ThemeTypes,
+  /** 버튼 크기 */
+  size: SizeTypes.Medium as SizeTypes,
+}
+
+const getProps = createPropsGetter(defaultProps);
+
+export type State = {
+
+
+}
+
+export default class PolaPolarButton extends React.Component<PolaPolarButtonProps,State>{
+  constructor(props: PolaPolarButtonProps) {
+    super(props);
+  }
+  
+  static defaultProps = defaultProps;
+
+  state: State={
+  };
+
+  render(){
+    const { 
+      children: children,
+      onClick: onClick,
+      theme: theme,
+      size: size,
+      disabled: disabled,
+      width: width
+    } = getProps(this.props);
+
+    return (
+      <button
       css={[style, themes[theme], sizes[size], { width }]}
       disabled={disabled}
       onClick={onClick}
     >
       {children}
     </button>
-  );
-};
-
-PolaPolarButton.defaultProps = {
-  theme: "primary",
-  size: "mediaum"
-};
-
-export default PolaPolarButton;
+    )
+  }
+}
 
 const style = css`
   width: 360px;
