@@ -1,3 +1,5 @@
+/** @jsx jsx */
+import { css, jsx } from "@emotion/core";
 import React from "react";
 import PolaPolarButtonGroup from "../components/PolaPolarButtonGroup";
 import PolaPolarDialog from "../components/PolaPolarDialog";
@@ -6,12 +8,14 @@ import PolaPolarButton, {
   SizeTypes
 } from "../components/PolaPolarButton";
 import { action } from "@storybook/addon-actions";
-import { css, jsx } from "@emotion/core";
+import PolaPolarCounter from "../components/PolaPolarCounter";
+import { autorun, computed, action as mAction, decorate, observable } from "mobx";
+import { observer } from "mobx-react";
 
 type Props = {
   /** 무료 모드 활성화 여부 */
   isFree?: boolean;
-}
+};
 
 interface State {
   /** 취소 확인 창 */
@@ -21,10 +25,20 @@ interface State {
 }
 
 /** 결제 예시 페이지입니다. */
-export default class SamplePaymentPage extends React.Component<Props, State> {
+class SamplePaymentPage extends React.Component<Props, State> {
   state: State = {
     modal: false,
     select: ThemeTypes.Grey
+  };
+
+  counter = 0;
+
+  increase = () => {
+    this.counter++;
+  };
+
+  decrease = () => {
+    this.counter--;
   };
 
   render() {
@@ -56,8 +70,16 @@ export default class SamplePaymentPage extends React.Component<Props, State> {
             }}
           />
         )}
+        <div css={counterBlock}>
+          <PolaPolarCounter
+            leftButtonOnClick={this.decrease}
+            rightButtonOnClick={this.increase}
+          >
+            {this.counter}
+          </PolaPolarCounter>
+        </div>
         {!isFree ? (
-          <PolaPolarButtonGroup gap="7.65rem">
+          <PolaPolarButtonGroup css={{ marginTop: "3rem" }} gap="7.65rem">
             <PolaPolarButton
               theme={select}
               onClick={() => {
@@ -95,7 +117,7 @@ export default class SamplePaymentPage extends React.Component<Props, State> {
             무료
           </PolaPolarButton>
         )}
-        <PolaPolarButtonGroup>
+        <PolaPolarButtonGroup css={{ marginTop: "3rem" }}>
           <PolaPolarButton
             theme={ThemeTypes.Cancel}
             onClick={() => {
@@ -116,3 +138,16 @@ export default class SamplePaymentPage extends React.Component<Props, State> {
     );
   }
 }
+
+const counterBlock = css`
+  margin-top: 30;
+  z-index: 10;
+`;
+
+decorate(SamplePaymentPage, {
+  counter: observable,
+  increase: mAction,
+  decrease: mAction,
+});
+
+export default observer(SamplePaymentPage);
